@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+name = 'ubuntu-server'
+
+Vagrant.configure(2) do |config|
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
+
+  config.vm.hostname = name
+  config.vm.box = name
+
+  config.vm.define name
+
+  config.vm.provider 'vmware_desktop' do |vmware|
+    vmware.gui = true
+    vmware.vmx["ethernet0.virtualDev"] = "e1000e"
+    vmware.vmx['memsize'] = 1024
+    vmware.vmx['numvcpus'] = 1
+    vmware.whitelist_verified = true
+  end
+
+  config.vm.synced_folder ENV['HOME'].to_s, '/host-data'
+  config.ssh.insert_key = false
+end
