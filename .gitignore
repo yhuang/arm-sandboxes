@@ -1,5 +1,5 @@
 **/.DS_Store
 **/.vagrant
-**/artifacts
-**/boxes
-**/iso
+**/artifacts/*
+**/boxes/*
+**/iso/*
