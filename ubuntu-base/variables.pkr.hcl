@@ -1,6 +1,6 @@
 variable "box_name" {
   type    = string
-  default = "ubuntu-daily"
+  default = "ubuntu-base"
 }
 
 variable "user_home_dir" {

@@ -21,7 +21,7 @@ autoinstall:
   keyboard:
     layout: us
   identity:
-    hostname: ubuntu-daily
+    hostname: ubuntu-base
     username: vagrant
     password: $6$oO2AduquZSwbacIt$zR.tGl0ra0OX7bY61P1ncqJIleJcgPSuNArOVVOTraleioxUCD7/Mwq9dj4UtTFfVYeryKD6TTeZB8DIWumDE0
   ssh:

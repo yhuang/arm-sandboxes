@@ -8,24 +8,11 @@ packer {
   }
 }
 
-source "vmware-iso" "ubuntu_daily" {
-  vm_name       = "ubuntu-daily"
-  guest_os_type = "arm-ubuntu-64"
-  version       = "16"
+source "vmware-vmx" "ubuntu_base" {
+  vm_name       = "ubuntu-base"
   headless      = false
-  memory        = 8172
-  cpus          = 2
-  cores         = 2
-  disk_size     = 81920
-  sound         = true
-  disk_type_id  = 0
-  
-  iso_urls =[
-    "file:/Users/yhuang/iso/jammy-live-server-arm64.iso"
-    // "https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-arm64.iso"
-  ]
-  iso_checksum = "sha256:12eed04214d8492d22686b72610711882ddf6222b4dc029c24515a85c4874e95"
-  iso_target_path   = "/Users/yhuang/iso"
+
+  source_path       = "vmx/ubuntu-daily.vmx"
   output_directory  = "artifacts"
   snapshot_name     = "clean"  
   http_directory    = "http"
@@ -46,7 +33,6 @@ source "vmware-iso" "ubuntu_daily" {
   ]
 
   disk_adapter_type    = "nvme"
-  network_adapter_type = "vmxnet3"
 
   vmx_data = {
     "firmware"          = "efi"
@@ -59,7 +45,7 @@ source "vmware-iso" "ubuntu_daily" {
 
 build {
   sources = [
-    "sources.vmware-iso.ubuntu_daily"
+    "sources.vmware-vmx.ubuntu_base"
   ]
 
   provisioner "shell" {
@@ -82,23 +68,6 @@ build {
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
     inline            = [
       "sleep 60"
-    ]
-  }
-
-  provisioner "file" {
-    source      = "files/vagrant.pub"
-    destination = "/tmp/authorized_keys"
-  }
-
-  provisioner "shell" {
-    environment_vars = [
-      "HOME_DIR=${var.user_home_dir}"
-    ]
-    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
-    scripts          = [
-      "provisioning-scripts/install-vagrant-user-bash-profile.sh",
-      "provisioning-scripts/configure-vagrant-user.sh",
-      "provisioning-scripts/configure-sshd-options.sh"
     ]
   }
 

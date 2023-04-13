@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-name = 'ubuntu-daily'
+name = 'ubuntu-base'
 
 Vagrant.configure(2) do |config|
   config.hostmanager.enabled = true
