@@ -1,5 +1,6 @@
 **/.DS_Store
 **/.vagrant
-**/artifacts/*
+**/vmx/*
+**/source-vmware-vmx/*
 **/boxes/*
 **/iso/*

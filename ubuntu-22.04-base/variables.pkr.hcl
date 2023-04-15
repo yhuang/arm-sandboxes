@@ -3,9 +3,12 @@ variable "box_name" {
   default = "ubuntu-base"
 }
 
-variable "user_home_dir" {
-  type    = string
-  default = "/home/vagrant"
+variable "output_directory" {
+  type = string
+}
+
+variable "source_path" {
+  type = string
 }
 
 variable "ssh_username" {
@@ -16,4 +19,9 @@ variable "ssh_username" {
 variable "ssh_password" {
   type    = string
   default = "vagrant"
+}
+
+variable "user_home_dir" {
+  type    = string
+  default = "/home/vagrant"
 }

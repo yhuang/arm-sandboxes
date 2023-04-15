@@ -9,11 +9,11 @@ packer {
 }
 
 source "vmware-vmx" "ubuntu_base" {
-  vm_name       = "ubuntu-base"
+  vm_name       = var.box_name
   headless      = false
 
-  source_path       = "vmx/ubuntu-daily.vmx"
-  output_directory  = "artifacts"
+  source_path       = var.source_path
+  output_directory  = var.output_directory
   snapshot_name     = "clean"  
   http_directory    = "http"
   ssh_username      = var.ssh_username
@@ -36,7 +36,6 @@ source "vmware-vmx" "ubuntu_base" {
 
   vmx_data = {
     "firmware"          = "efi"
-    "virtualHW.version" = 20
     "svga.autodetect"   = true
     "usb_xhci.present"  = true
     "sound.present"     = false
@@ -67,7 +66,31 @@ build {
     pause_before      = "10s"
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
     inline            = [
-      "sleep 60"
+      "sleep 30"
+    ]
+  }
+
+  provisioner "shell" {
+    environment_vars = [
+      "HOME_DIR=${var.user_home_dir}"
+    ]
+    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
+    scripts          = [
+      "provisioning-scripts/install-essential-packages.sh",
+      "provisioning-scripts/install-go.sh",
+      "provisioning-scripts/install-python-packages.sh",
+      "provisioning-scripts/create-hashicorp-directory.sh",
+      "provisioning-scripts/install-aws-cli.sh",
+      "provisioning-scripts/install-google-cloud-cli.sh",
+      "provisioning-scripts/install-packer.sh",
+      "provisioning-scripts/install-terraform.sh",
+      "provisioning-scripts/install-vault.sh"
+    ]
+  }
+
+  provisioner "shell" {
+    scripts = [
+      "provisioning-scripts/install-rvm.sh"
     ]
   }
 

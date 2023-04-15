@@ -27,21 +27,9 @@ autoinstall:
   ssh:
     install-server: true
     allow-pw: true
-  packages:
-    - openssh-server
-    - open-vm-tools
-    - cloud-init
-    - whois
-    - zsh
-    - wget
-    - tasksel
   user-data:
     disable_root: false
     timezone: UTC
   late-commands:
-    - sed -i -e 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /target/etc/ssh/sshd_config
-    - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
-    - curtin in-target --target=/target -- chmod 440 /etc/ssh/sshd_config
-    - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/vagrant
     - "lvresize -v -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv"
     - "resize2fs -p /dev/mapper/ubuntu--vg-ubuntu--lv"

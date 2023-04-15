@@ -9,25 +9,24 @@ packer {
 }
 
 source "vmware-iso" "ubuntu_daily" {
-  vm_name       = "ubuntu-daily"
+  vm_name       = var.box_name
   guest_os_type = "arm-ubuntu-64"
-  version       = "16"
+  version       = "20"
   headless      = false
-  memory        = 8172
-  cpus          = 2
+  memory        = 4096
+  cpus          = 1
   cores         = 2
-  disk_size     = 81920
+  disk_size     = 16384
   sound         = true
   disk_type_id  = 0
   
   iso_urls =[
-    "file:/Users/yhuang/iso/jammy-live-server-arm64.iso"
-    // "https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-arm64.iso"
+    "${var.iso_file_path}",
+    "https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-arm64.iso"
   ]
-  iso_checksum = "sha256:12eed04214d8492d22686b72610711882ddf6222b4dc029c24515a85c4874e95"
-  iso_target_path   = "/Users/yhuang/iso"
-  output_directory  = "artifacts"
-  snapshot_name     = "clean"  
+  iso_checksum = var.iso_checksum
+  iso_target_path   = var.iso_target_path
+  output_directory  = var.output_directory
   http_directory    = "http"
   ssh_username      = var.ssh_username
   ssh_password      = var.ssh_password
@@ -50,7 +49,6 @@ source "vmware-iso" "ubuntu_daily" {
 
   vmx_data = {
     "firmware"          = "efi"
-    "virtualHW.version" = 20
     "svga.autodetect"   = true
     "usb_xhci.present"  = true
     "sound.present"     = false
@@ -81,7 +79,7 @@ build {
     pause_before      = "10s"
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
     inline            = [
-      "sleep 60"
+      "sleep 30"
     ]
   }
 
