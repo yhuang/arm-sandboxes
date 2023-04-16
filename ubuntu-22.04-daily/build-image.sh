@@ -31,7 +31,7 @@ echo -e "\e[38;5;39m   Image Building with Packer   #\e[0m"
 echo -e "\e[38;5;39m================================#\e[0m"
 
 PACKER_LOG=1 packer build \
-  -var "box_name=${HOSTNAME}" \
+  -var "build_name=${HOSTNAME}" \
   -var "iso_checksum=sha256:${ISO_CHECKSUM}" \
   -var "iso_file_path=${ISO_FILE_PATH}" \
   -var "iso_target_path=${ISO_TARGET_PATH}" \

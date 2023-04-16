@@ -1,4 +1,4 @@
-variable "box_name" {
+variable "build_name" {
   type    = string
   default = "ubuntu-base"
 }

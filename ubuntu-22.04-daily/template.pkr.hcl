@@ -9,15 +9,14 @@ packer {
 }
 
 source "vmware-iso" "ubuntu_daily" {
-  vm_name       = var.box_name
+  vm_name       = var.build_name
   guest_os_type = "arm-ubuntu-64"
-  version       = "20"
+  version       = 20
   headless      = false
   memory        = 4096
   cpus          = 1
   cores         = 2
   disk_size     = 16384
-  sound         = true
   disk_type_id  = 0
   
   iso_urls =[
@@ -48,14 +47,16 @@ source "vmware-iso" "ubuntu_daily" {
   network_adapter_type = "vmxnet3"
 
   vmx_data = {
-    "firmware"          = "efi"
-    "svga.autodetect"   = true
-    "usb_xhci.present"  = true
-    "sound.present"     = false
+    "cpuid.coresPerSocket"    = "2"
+    "ethernet0.pciSlotNumber" = "32"
+    "svga.autodetect"         = true
+    "usb_xhci.present"        = true
   }
 }
 
 build {
+  name = var.build_name
+
   sources = [
     "sources.vmware-iso.ubuntu_daily"
   ]
@@ -110,6 +111,6 @@ build {
 
   post-processor "vagrant" {
     keep_input_artifact = true
-    output              = "boxes/${var.box_name}.{{.Provider}}.box"
+    output              = "boxes/${var.build_name}.{{.Provider}}.box"
   } 
 }

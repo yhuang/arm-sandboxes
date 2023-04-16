@@ -28,7 +28,7 @@ SOURCE_PATH="source-vmware-vmx/${OS}-daily.vmx"
 OUTPUT_DIRECTORY="vmx"
 
 PACKER_LOG=1 packer build \
-  -var "box_name=${HOSTNAME}" \
+  -var "build_name=${HOSTNAME}" \
   -var "output_directory=${OUTPUT_DIRECTORY}" \
   -var "source_path=${SOURCE_PATH}" \
   -var "ssh_username=${USERNAME}" \
