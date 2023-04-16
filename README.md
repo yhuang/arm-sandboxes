@@ -39,21 +39,41 @@
 
   2. Download `jammy-live-server-arm64.iso` from a trusted source.  Create the `iso` directory under the `arm-sandboxes` top-level directory, and put the ISO file under the `iso` directory.
 
-  3. Build the `ubuntu-daily` Vagrant box.
+  3. The `required_plugins` specification for the `packer` block in the packer template `template.pkr.hcl` allows the Packer Plugin for VMware to be installed automatically.
+
+  ```
+  packer {
+    required_version = ">= x.x.x"
+    required_plugins {
+        vmware = {
+        version = ">= x.x.x"
+        source  = "github.com/hashicorp/vmware"
+        }
+    }
+  }
+  ```
+
+  Alternatively, the Packer Plugin for VMware can be installed manually:
+
+  ```
+  macOS$ packer plugins install github.com/hashicorp/vmware
+  ```
+
+  4. Build the `ubuntu-daily` machine image and Vagrant box.
 
   ```
   macOS$ cd ubuntu-<version>-daily
   macOS$ ./build-image.sh
   ```
 
-  4. Build the `ubuntu-base Vagrant box.
+  5. Build the `ubuntu-base Vagrant box.
 
   ```
   macOS$ cd ubuntu-<version>-base
   macOS$ ./build-image.sh
   ```
 
-  5. Launch the `ubuntu-base` Vagrant box.
+  6. Launch the `ubuntu-base` Vagrant box.
 
   ```
   macOS$ vagrant up
