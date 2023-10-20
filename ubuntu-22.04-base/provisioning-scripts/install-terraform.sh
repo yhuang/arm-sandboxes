@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
-# https://releases.hashicorp.com/terraform/
+TERRAFORM_0_11=0.11.15
+TERRAFORM_0_15=0.15.5
+TERRAFORM_1_5_6=1.5.6
+TERRAFORM_1_6_2=1.6.2
+TFSWITCH=/usr/local/bin/tfswitch
 
-APPLICATION="terraform"
-VERSION="1.4.5"
-ARCHIVE="${APPLICATION}_${VERSION}_linux_arm64.zip"
+chmod 755 $HOME
 
-wget https://releases.hashicorp.com/${APPLICATION}/${VERSION}/${ARCHIVE}
+$TFSWITCH $TERRAFORM_0_11
+$TFSWITCH $TERRAFORM_0_15
+$TFSWITCH $TERRAFORM_1_5_6
+$TFSWITCH $TERRAFORM_1_6_2
 
-unzip ${ARCHIVE} -d /usr/local/bin/hashicorp
-rm -f ${ARCHIVE}
+chmod 755 $HOME/.terraform.versions

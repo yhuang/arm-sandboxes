@@ -15,13 +15,18 @@ autoinstall:
         uri: http://us.archive.ubuntu.com/ubuntu
       - arches: [default]
         uri: http://ports.ubuntu.com/ubuntu-ports
+  network:
+    version: 2
+    ethernets:
+      ens33:
+        dhcp4: true
+        dhcp-identifier: mac
   early-commands:
     - sudo systemctl stop ssh
-    - apt -o "Acquire::https::Verify-Peer=false" update
-    - apt -o "Acquire::https::Verify-Peer=false" install curl
   locale: en_US
   keyboard:
     layout: us
+    variant: us
   identity:
     hostname: ubuntu-daily
     username: vagrant

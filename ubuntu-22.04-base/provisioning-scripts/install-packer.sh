@@ -3,7 +3,7 @@
 # https://releases.hashicorp.com/packer/
 
 APPLICATION="packer"
-VERSION="1.8.6"
+VERSION="1.9.4"
 ARCHIVE="${APPLICATION}_${VERSION}_linux_arm64.zip"
 
 wget https://releases.hashicorp.com/${APPLICATION}/${VERSION}/${ARCHIVE}

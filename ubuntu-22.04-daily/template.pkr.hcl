@@ -12,7 +12,7 @@ source "vmware-iso" "ubuntu_daily" {
   vm_name       = var.build_name
   guest_os_type = "arm-ubuntu-64"
   version       = 20
-  headless      = false
+  headless      = true
   memory        = 4096
   cpus          = 1
   cores         = 2

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash -e
 
+# https://ubuntu.com/download/server/arm
 OS="ubuntu"
 VERSION="22.04"
 
@@ -9,7 +10,7 @@ PASSWORD="vagrant"
 ENCRYPTED_PASSWORD='$6$oO2AduquZSwbacIt$zR.tGl0ra0OX7bY61P1ncqJIleJcgPSuNArOVVOTraleioxUCD7\/Mwq9dj4UtTFfVYeryKD6TTeZB8DIWumDE0'
 
 ISO_TARGET_PATH="${HOME}/iso"
-ISO_FILE_PATH="file:${HOME}/iso/jammy-live-server-arm64.iso"
+ISO_FILE_PATH="file:${HOME}/iso/ubuntu-22.04.3-live-server-arm64.iso"
 OUTPUT_DIRECTORY="vmx"
 
 ISO_CHECKSUM=$(curl https://cdimage.ubuntu.com/releases/22.04/release/SHA256SUMS | grep live-server-arm64.iso | awk '{print $1}')
