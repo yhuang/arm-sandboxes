@@ -2,6 +2,10 @@ variable "build_name" {
   type = string
 }
 
+variable "box_name" {
+  type = string
+}
+
 variable "iso_checksum" {
   type = string
 }

@@ -1,21 +1,22 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-name = 'ubuntu-daily'
+box_name = 'ubuntu22.04-arm64'
+hostname = 'ubuntu22-04-arm64'
 
 Vagrant.configure(2) do |config|
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
 
-  config.vm.hostname = name
-  config.vm.box = name
+  config.vm.box      = box_name
+  config.vm.hostname = hostname
 
-  config.vm.define name
+  config.vm.define hostname
 
   config.vm.provider 'vmware_desktop' do |vmware|
     vmware.gui = false
-    vmware.vmx["ethernet0.virtualDev"] = "e1000e"
+    vmware.vmx["ethernet0.virtualDev"] = "vmxnet3"
     vmware.vmx['memsize'] = 1024
     vmware.vmx['numvcpus'] = 1
     vmware.whitelist_verified = true

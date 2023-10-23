@@ -15,40 +15,21 @@ autoinstall:
         uri: http://us.archive.ubuntu.com/ubuntu
       - arches: [default]
         uri: http://ports.ubuntu.com/ubuntu-ports
-  network:
-    version: 2
-    ethernets:
-      ens33:
-        dhcp4: true
-        dhcp-identifier: mac
   early-commands:
     - sudo systemctl stop ssh
   locale: en_US
   keyboard:
     layout: us
-    variant: us
   identity:
-    hostname: ubuntu-daily
+    hostname: ubuntu22-04-base
     username: vagrant
     password: $6$oO2AduquZSwbacIt$zR.tGl0ra0OX7bY61P1ncqJIleJcgPSuNArOVVOTraleioxUCD7/Mwq9dj4UtTFfVYeryKD6TTeZB8DIWumDE0
   ssh:
     install-server: true
     allow-pw: true
-  packages:
-    - openssh-server
-    - open-vm-tools
-    - cloud-init
-    - whois
-    - zsh
-    - wget
-    - tasksel
   user-data:
     disable_root: false
     timezone: UTC
   late-commands:
-    - sed -i -e 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /target/etc/ssh/sshd_config
-    - echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/vagrant
-    - curtin in-target --target=/target -- chmod 440 /etc/ssh/sshd_config
-    - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/vagrant
     - "lvresize -v -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv"
     - "resize2fs -p /dev/mapper/ubuntu--vg-ubuntu--lv"

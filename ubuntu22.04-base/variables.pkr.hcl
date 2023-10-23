@@ -2,19 +2,15 @@ variable "build_name" {
   type = string
 }
 
-variable "iso_checksum" {
-  type = string
-}
-
-variable "iso_file_path" {
-  type = string
-}
-
-variable "iso_target_path" {
+variable "box_name" {
   type = string
 }
 
 variable "output_directory" {
+  type = string
+}
+
+variable "source_path" {
   type = string
 }
 

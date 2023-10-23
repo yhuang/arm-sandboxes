@@ -8,11 +8,11 @@ packer {
   }
 }
 
-source "vmware-iso" "ubuntu_daily" {
-  vm_name       = var.build_name
+source "vmware-iso" "ubuntu_arm64" {
+  vm_name       = var.box_name
   guest_os_type = "arm-ubuntu-64"
   version       = 20
-  headless      = false
+  headless      = true
   memory        = 4096
   cpus          = 1
   cores         = 2
@@ -21,7 +21,7 @@ source "vmware-iso" "ubuntu_daily" {
   
   iso_urls =[
     "${var.iso_file_path}",
-    "https://cdimage.ubuntu.com/releases/focal/release/ubuntu-20.04.5-live-server-arm64.iso"
+    "https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-arm64.iso"
   ]
   iso_checksum = var.iso_checksum
   iso_target_path   = var.iso_target_path
@@ -58,7 +58,7 @@ build {
   name = var.build_name
 
   sources = [
-    "sources.vmware-iso.ubuntu_daily"
+    "sources.vmware-iso.ubuntu_arm64"
   ]
 
   provisioner "shell" {
@@ -111,6 +111,6 @@ build {
 
   post-processor "vagrant" {
     keep_input_artifact = true
-    output              = "boxes/${var.build_name}.{{.Provider}}.box"
+    output              = "boxes/${var.box_name}.{{.Provider}}.box"
   } 
 }

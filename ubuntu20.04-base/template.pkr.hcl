@@ -8,57 +8,23 @@ packer {
   }
 }
 
-source "vmware-iso" "ubuntu_daily" {
-  vm_name       = var.build_name
-  guest_os_type = "arm-ubuntu-64"
-  version       = 20
-  headless      = true
-  memory        = 4096
-  cpus          = 1
-  cores         = 2
-  disk_size     = 16384
-  disk_type_id  = 0
-  
-  iso_urls =[
-    "${var.iso_file_path}",
-    "https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-arm64.iso"
-  ]
-  iso_checksum = var.iso_checksum
-  iso_target_path   = var.iso_target_path
-  output_directory  = var.output_directory
-  http_directory    = "http"
-  ssh_username      = var.ssh_username
-  ssh_password      = var.ssh_password
-  ssh_wait_timeout  = "1800s"
-  shutdown_command  = "sudo shutdown -P now"
-
-  boot_wait    = "10s"
-  boot_command = [
-    "c<wait>",
-    "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=http://{{.HTTPIP}}:{{.HTTPPort}}/\"",
-    "<enter><wait>",
-    "initrd /casper/initrd",
-    "<enter><wait>",
-    "boot",
-    "<enter>"
-  ]
-
-  disk_adapter_type    = "nvme"
-  network_adapter_type = "vmxnet3"
-
-  vmx_data = {
-    "cpuid.coresPerSocket"    = "2"
-    "ethernet0.pciSlotNumber" = "32"
-    "svga.autodetect"         = true
-    "usb_xhci.present"        = true
-  }
+source "vagrant" "ubuntu" {
+  communicator     = "ssh"
+  provider         = "vmware_desktop"
+  source_path      = var.source_box_path
+  output_dir       = var.target_boxes_directory
+  box_name         = var.source_box_name
+  teardown_method  = "destroy"
+  ssh_username     = var.ssh_username
+  ssh_password     = var.ssh_password
+  ssh_wait_timeout = "1800s"
 }
 
 build {
   name = var.build_name
 
   sources = [
-    "sources.vmware-iso.ubuntu_daily"
+    "sources.vagrant.ubuntu"
   ]
 
   provisioner "shell" {
@@ -97,7 +63,23 @@ build {
     scripts          = [
       "provisioning-scripts/install-vagrant-user-bash-profile.sh",
       "provisioning-scripts/configure-vagrant-user.sh",
-      "provisioning-scripts/configure-sshd-options.sh"
+      "provisioning-scripts/configure-sshd-options.sh",
+
+      "provisioning-scripts/install-essential-packages.sh",
+      "provisioning-scripts/create-hashicorp-directory.sh",
+      "provisioning-scripts/install-packer.sh",
+      "provisioning-scripts/install-vault.sh",
+      "provisioning-scripts/install-terraform.sh",
+      "provisioning-scripts/install-go.sh",
+      "provisioning-scripts/install-python-packages.sh",
+      "provisioning-scripts/install-aws-cli.sh",
+      "provisioning-scripts/install-google-cloud-cli.sh",
+    ]
+  }
+
+  provisioner "shell" {
+    scripts = [
+      "provisioning-scripts/install-rvm.sh",
     ]
   }
 
@@ -108,9 +90,4 @@ build {
       "provisioning-scripts/clean-up.sh"
     ]
   }
-
-  post-processor "vagrant" {
-    keep_input_artifact = true
-    output              = "boxes/${var.build_name}.{{.Provider}}.box"
-  } 
 }

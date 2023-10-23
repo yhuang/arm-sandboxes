@@ -9,7 +9,7 @@ packer {
 }
 
 source "vmware-vmx" "ubuntu_base" {
-  vm_name       = var.build_name
+  vm_name       = var.box_name
   headless      = true
 
   source_path       = var.source_path
@@ -81,27 +81,12 @@ build {
       "provisioning-scripts/install-essential-packages.sh",
       "provisioning-scripts/create-hashicorp-directory.sh",
       "provisioning-scripts/install-packer.sh",
-      "provisioning-scripts/install-tfswitch.sh",
-    ]
-  }
-
-  provisioner "shell" {
-    scripts = [
-      "provisioning-scripts/install-terraform.sh"
-    ]
-  }
-
-  provisioner "shell" {
-    environment_vars = [
-      "HOME_DIR=${var.user_home_dir}"
-    ]
-    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
-    scripts          = [
       "provisioning-scripts/install-vault.sh",
+      "provisioning-scripts/install-terraform.sh",
       "provisioning-scripts/install-go.sh",
       "provisioning-scripts/install-python-packages.sh",
       "provisioning-scripts/install-aws-cli.sh",
-      "provisioning-scripts/install-google-cloud-cli.sh"
+      "provisioning-scripts/install-google-cloud-cli.sh",
     ]
   }
 
@@ -121,6 +106,6 @@ build {
 
   post-processor "vagrant" {
     keep_input_artifact = true
-    output              = "boxes/${var.build_name}.{{.Provider}}.box"
+    output              = "boxes/${var.box_name}.{{.Provider}}.box"
   } 
 }

@@ -28,7 +28,7 @@
 
 - [How to use Mac OS X Keychain with SSH keys?](http://superuser.com/questions/88470/how-to-use-mac-os-x-keychain-with-ssh-keys)
 
-#### Create the `ubuntu-daily` Vagrant Machine
+#### Create the `ubuntu-arm64` Vagrant Machine
 
   1. Clone the `arm-sandboxes` repo.
 
@@ -59,10 +59,10 @@
   macOS$ packer plugins install github.com/hashicorp/vmware
   ```
 
-  4. Build the `ubuntu-daily` machine image and Vagrant box.
+  4. Build the `ubuntu-arm64` machine image and Vagrant box.
 
   ```
-  macOS$ cd ubuntu-<version>-daily
+  macOS$ cd ubuntu-<version>-arm64
   macOS$ ./build-image.sh
   ```
 
