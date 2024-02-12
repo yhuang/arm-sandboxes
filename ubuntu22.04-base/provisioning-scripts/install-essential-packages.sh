@@ -2,12 +2,16 @@
 
 apt-get install -q -y \
   autoconf \
+  autotools-dev \
   build-essential \
   bzip2 \
   g++ \
   gcc \
+  gettext \
   gnupg2 \
   jq \
+  libcurl4-openssl-dev \
+  libssl-dev \
   linux-headers-$(uname -r) \
   make \
   net-tools \

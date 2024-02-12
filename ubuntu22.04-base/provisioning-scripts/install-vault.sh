@@ -3,7 +3,7 @@
 # https://releases.hashicorp.com/vault/
 
 APPLICATION="vault"
-VERSION="1.15.0"
+VERSION="1.15.5"
 ARCHIVE="${APPLICATION}_${VERSION}_linux_arm64.zip"
 
 wget https://releases.hashicorp.com/${APPLICATION}/${VERSION}/${ARCHIVE}

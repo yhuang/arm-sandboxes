@@ -79,6 +79,7 @@ build {
     execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
     scripts          = [
       "provisioning-scripts/install-essential-packages.sh",
+      "provisioning-scripts/install-git.sh",
       "provisioning-scripts/create-hashicorp-directory.sh",
       "provisioning-scripts/install-packer.sh",
       "provisioning-scripts/install-vault.sh",
