@@ -8,7 +8,6 @@ HOSTNAME="${OS}-arm64"
 BOX_NAME="${OS}${VERSION}-arm64"
 USERNAME="vagrant"
 PASSWORD="vagrant"
-ENCRYPTED_PASSWORD='$6$oO2AduquZSwbacIt$zR.tGl0ra0OX7bY61P1ncqJIleJcgPSuNArOVVOTraleioxUCD7\/Mwq9dj4UtTFfVYeryKD6TTeZB8DIWumDE0'
 
 ISO_TARGET_PATH="${HOME}/iso"
 ISO_FILE_PATH="file:${HOME}/iso/ubuntu22.04.3-live-server-arm64.iso"
@@ -17,16 +16,6 @@ OUTPUT_DIRECTORY="vmx"
 ISO_CHECKSUM=$(curl https://cdimage.ubuntu.com/releases/22.04/release/SHA256SUMS | grep live-server-arm64.iso | awk '{print $1}')
 
 USER_DATA="http/user-data"
-
-if [ `uname -s` == "Darwin" ]; then
-  sed -i "" "s|    hostname: .*|    hostname: ${HOSTNAME}|g" ${USER_DATA}
-  sed -i "" "s|    username: .*|    username: ${USERNAME}|g" ${USER_DATA}
-  sed -i "" "s|    password: .*|    password: ${ENCRYPTED_PASSWORD}|g" ${USER_DATA}
-else
-  sed -i "s|    hostname: .*|    hostname: ${HOSTNAME}|g" ${USER_DATA}
-  sed -i "s|    username: .*|    username: ${USERNAME}|g" ${USER_DATA}
-  sed -i "s|    password: .*|    password: ${ENCRYPTED_PASSWORD}|g" ${USER_DATA}
-fi
 
 echo -e "\e[38;5;39m================================#\e[0m"
 echo -e "\e[38;5;39m   Image Building with Packer   #\e[0m"

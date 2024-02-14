@@ -1,8 +1,8 @@
 packer {
-  required_version = ">= 1.8.6"
+  required_version = ">= 1.10.1"
   required_plugins {
     vmware = {
-      version = ">= 1.0.7"
+      version = ">= 1.0.11"
       source  = "github.com/hashicorp/vmware"
     }
   }
@@ -19,11 +19,11 @@ source "vmware-iso" "ubuntu_arm64" {
   disk_size     = 16384
   disk_type_id  = 0
   
-  iso_urls =[
+  iso_urls = [
     "${var.iso_file_path}",
     "https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-arm64.iso"
   ]
-  iso_checksum = var.iso_checksum
+  iso_checksum      = var.iso_checksum
   iso_target_path   = var.iso_target_path
   output_directory  = var.output_directory
   http_directory    = "http"
@@ -33,18 +33,13 @@ source "vmware-iso" "ubuntu_arm64" {
   shutdown_command  = "sudo shutdown -P now"
 
   boot_wait    = "10s"
-  boot_command = [
-    "c<wait>",
-    "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=http://{{.HTTPIP}}:{{.HTTPPort}}/\"",
-    "<enter><wait>",
-    "initrd /casper/initrd",
-    "<enter><wait>",
-    "boot",
-    "<enter>"
-  ]
+  boot_command = ["<wait>e<wait><down><down><down><end><wait> autoinstall ds=nocloud-net\\;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu/<f10><wait>"]
 
-  disk_adapter_type    = "nvme"
+
+
+  network              = "nat"
   network_adapter_type = "vmxnet3"
+  disk_adapter_type    = "nvme"
 
   vmx_data = {
     "cpuid.coresPerSocket"    = "2"
@@ -52,6 +47,8 @@ source "vmware-iso" "ubuntu_arm64" {
     "svga.autodetect"         = true
     "usb_xhci.present"        = true
   }
+
+  vmx_remove_ethernet_interfaces = true
 }
 
 build {
