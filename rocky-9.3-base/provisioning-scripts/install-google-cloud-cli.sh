@@ -10,4 +10,4 @@ repo_gpgcheck=0
 gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOM
 
-dnf install -q -y libxcrypt-compat.x86_64
+dnf install -q -y google-cloud-cli
