@@ -6,7 +6,7 @@ variable "box_name" {
   type = string
 }
 
-variable "output_directory" {
+variable "output_dir" {
   type = string
 }
 

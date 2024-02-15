@@ -1,53 +1,29 @@
 packer {
-  required_version = ">= 1.8.6"
+  required_version = ">= 1.10.1"
   required_plugins {
     vmware = {
-      version = ">= 1.0.7"
+      version = ">= 1.0.11"
       source  = "github.com/hashicorp/vmware"
     }
   }
 }
 
-source "vmware-vmx" "ubuntu_base" {
-  vm_name       = var.box_name
-  headless      = true
+source "vagrant" "ubuntu_base" {
+  communicator = "ssh"
+  source_path  = var.source_path
+  provider     = "vmware_desktop"
 
-  source_path       = var.source_path
-  output_directory  = var.output_directory
-  snapshot_name     = "clean"  
-  http_directory    = "http"
-  ssh_username      = var.ssh_username
-  ssh_password      = var.ssh_password
-  ssh_wait_timeout  = "1800s"
-  shutdown_command  = "sudo shutdown -P now"
+  output_dir = var.output_dir
+  box_name   = var.box_name
 
-  boot_wait    = "10s"
-  boot_command = [
-    "c<wait>",
-    "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=http://{{.HTTPIP}}:{{.HTTPPort}}/\"",
-    "<enter><wait>",
-    "initrd /casper/initrd",
-    "<enter><wait>",
-    "boot",
-    "<enter>"
-  ]
+  insert_key = true
 
-  disk_adapter_type = "nvme"
-
-  vmx_data = {
-    "cpuid.coresPerSocket"    = "2"
-    "ethernet0.pciSlotNumber" = "32"
-    "svga.autodetect"         = true
-    "usb_xhci.present"        = true
-  }
+  skip_add = true
 }
 
 build {
-  name = var.build_name
-
-  sources = [
-    "sources.vmware-vmx.ubuntu_base"
-  ]
+  name    = var.build_name
+  sources = ["source.vagrant.ubuntu_base"]
 
   provisioner "shell" {
     expect_disconnect = true
@@ -76,8 +52,12 @@ build {
     environment_vars = [
       "HOME_DIR=${var.user_home_dir}"
     ]
-    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
+    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     scripts          = [
+      "provisioning-scripts/reset-motd.sh",
+      "provisioning-scripts/configure-sshd-options.sh",
+      "provisioning-scripts/configure-vagrant-user.sh",
+      "provisioning-scripts/install-vagrant-user-bash-profile.sh",
       "provisioning-scripts/install-essential-packages.sh",
       "provisioning-scripts/install-git.sh",
       "provisioning-scripts/create-hashicorp-directory.sh",
@@ -98,15 +78,10 @@ build {
   }
 
   provisioner "shell" {
-    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
+    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     valid_exit_codes = [ 0, 1 ]
     scripts          = [
       "provisioning-scripts/clean-up.sh"
     ]
   }
-
-  post-processor "vagrant" {
-    keep_input_artifact = true
-    output              = "boxes/${var.box_name}.{{.Provider}}.box"
-  } 
 }
