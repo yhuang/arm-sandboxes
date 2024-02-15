@@ -47,6 +47,35 @@ build {
   }
 
   provisioner "shell" {
+    environment_vars = [
+      "HOME_DIR=${var.user_home_dir}"
+    ]
+    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
+    scripts          = [
+      "provisioning-scripts/reset-motd.sh",
+      "provisioning-scripts/configure-sshd-options.sh",
+      "provisioning-scripts/configure-vagrant-user.sh",
+      "provisioning-scripts/install-vagrant-user-bash-profile.sh",
+      "provisioning-scripts/install-essential-packages.sh",
+      "provisioning-scripts/install-git.sh",
+      "provisioning-scripts/create-hashicorp-directory.sh",
+      "provisioning-scripts/install-packer.sh",
+      "provisioning-scripts/install-vault.sh",
+      "provisioning-scripts/install-terraform.sh",
+      "provisioning-scripts/install-go.sh",
+      "provisioning-scripts/install-python-packages.sh",
+      "provisioning-scripts/install-aws-cli.sh",
+      "provisioning-scripts/install-google-cloud-cli.sh",
+    ]
+  }
+
+  provisioner "shell" {
+    scripts = [
+      "provisioning-scripts/install-rvm.sh"
+    ]
+  }
+
+  provisioner "shell" {
     execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     valid_exit_codes = [ 0, 1 ]
     scripts          = [

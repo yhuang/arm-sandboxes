@@ -22,9 +22,10 @@ packer build \
   -only=vmware-iso.vm \
   -var-file=${PACKER_VARS}\
   -var 'vm_name=${VM_NAME}' \
+  -var 'headless=true' \
   -var 'cpus=1' \
   -var 'memory=2048' \
-  -var 'disk_size=16384' `
+  -var 'disk_size=16384' \
   -force ${BENTO_DIR}/packer_templates
 
 echo -e "\e[38;5;39m===============================#\e[0m"

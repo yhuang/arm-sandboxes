@@ -22,6 +22,7 @@ packer build \
   -only=vmware-iso.vm \
   -var-file=${PACKER_VARS}\
   -var 'vm_name=${VM_NAME}' \
+  -var 'headless=true' \
   -var 'cpus=1' \
   -var 'memory=2048' \
   -var 'disk_size=16384' \
