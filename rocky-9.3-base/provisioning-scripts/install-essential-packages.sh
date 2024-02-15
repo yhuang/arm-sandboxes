@@ -17,6 +17,7 @@ nmap \
 nmap-ncat \
 nfs-utils \
 python3-pip \
+ruby-devel \
 selinux-policy-devel \
 sysstat \
 tcpdump \

@@ -22,6 +22,7 @@ apt-get install -q -y \
   ncat \
   ntp \
   python3-pip \
+  ruby-dev \
   selinux-policy-dev \
   sysstat \
   tasksel \
