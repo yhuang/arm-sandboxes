@@ -14,7 +14,7 @@ RVM_SCRIPT="${HOME}/.rvm/scripts/rvm"
 
 . ${RVM_SCRIPT}
 
-echo "gem: --no-rdoc --no-ri" > ${HOME}/.gemrc
+echo "gem: --no-document" > ${HOME}/.gemrc
 
 rvm install ${RUBY_VERSION}
 rvm use ${RUBY_VERSION} --default
@@ -22,10 +22,10 @@ rvm use ${RUBY_VERSION} --default
 rvm gemset create user
 rvm use ${RUBY_VERSION}@user --default
 
-gem install \
+gem install --no-document \
 aws-sdk \
 bundler \
 rake \
-specific_install
-
-gem specific_install https://github.com/chef/inspec.git
+specific_install \
+inspec \
+test-kitchen
