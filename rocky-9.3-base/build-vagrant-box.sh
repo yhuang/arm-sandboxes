@@ -23,7 +23,7 @@ SOURCE_PATH="${BUILDS_DIR}/${OS}-${VERSION}-${ARCH}.vmware.box"
 OUTPUT_DIR="boxes"
 TARGET_PATH="${OUTPUT_DIR}/${BOX_NAME}.vmware.box"
 
-PACKER_LOG=1 packer build \
+packer build \
   -var "build_name=${HOSTNAME}" \
   -var "box_name=${BOX_NAME}" \
   -var "output_dir=${OUTPUT_DIR}" \

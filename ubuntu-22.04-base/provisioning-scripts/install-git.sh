@@ -17,3 +17,4 @@ make install
 
 cd ..
 rm -fr ${APPLICATION}-${VERSION}
+rm -f ${ARCHIVE}
