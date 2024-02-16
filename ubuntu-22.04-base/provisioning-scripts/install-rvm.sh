@@ -9,7 +9,8 @@ gpg2 \
 
 curl -sSL https://get.rvm.io | bash -s stable
 
-RUBY_VERSION="3.3.0"
+# latest confirmed working version on Ubuntu 22.04 LTS is 3.3.0
+RUBY_VERSION="3.1.4"
 RVM_SCRIPT="${HOME}/.rvm/scripts/rvm"
 
 . ${RVM_SCRIPT}
