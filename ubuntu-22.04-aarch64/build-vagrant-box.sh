@@ -33,6 +33,8 @@ echo -e "\e[38;5;39m   Box Building with Vagrant   #\e[0m"
 echo -e "\e[38;5;39m===============================#\e[0m"
 vagrant box add --force ${BUILDS_DIR}/${BOX_ARTIFACT_NAME} --name ${BOX_NAME}
 
+cp ${BUILDS_DIR}/${BOX_ARTIFACT_NAME} boxes/${BOX_ARTIFACT_NAME}
+
 echo -e "\e[38;5;39m===================#\e[0m"
 echo -e "\e[38;5;39m       Done!       #\e[0m"
 echo -e "\e[38;5;39m===================#\e[0m"

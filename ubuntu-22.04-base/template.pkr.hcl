@@ -29,7 +29,7 @@ build {
     expect_disconnect = true
     pause_before      = "10s"
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
-    inline            = [
+    inline = [
       "rm -rf /var/cache/apt",
       "apt-get clean all",
       "export DEBIAN_FRONTEND=noninteractive",
@@ -43,7 +43,7 @@ build {
     expect_disconnect = true
     pause_before      = "10s"
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
-    inline            = [
+    inline = [
       "sleep 30"
     ]
   }
@@ -52,8 +52,8 @@ build {
     environment_vars = [
       "HOME_DIR=${var.user_home_dir}"
     ]
-    execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
-    scripts          = [
+    execute_command = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
+    scripts = [
       "provisioning-scripts/reset-motd.sh",
       "provisioning-scripts/configure-sshd-options.sh",
       "provisioning-scripts/configure-vagrant-user.sh",
@@ -76,12 +76,15 @@ build {
       "provisioning-scripts/install-rvm.sh"
     ]
   }
-
   provisioner "shell" {
     execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
-    valid_exit_codes = [ 0, 1 ]
-    scripts          = [
+    valid_exit_codes = [0, 1]
+    scripts = [
       "provisioning-scripts/clean-up.sh"
     ]
+  }
+
+  post-processor "manifest" {
+    output = "${var.output_dir}/${var.box_name}-manifest.json"
   }
 }

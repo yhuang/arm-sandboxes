@@ -9,7 +9,7 @@ VERSION="${MAJOR_NUMBER}.${MINOR_NUMBER}"
 ARCH=aarch64
 
 HOSTNAME="rocky${MAJOR_NUMBER}-${MINOR_NUMBER}-base"
-BUILDS_DIR="${BENTO_DIR}/builds"
+SOURCE_DIR="../rocky-${VERSION}-${ARCH}/boxes"
 BOX_NAME="rocky-${VERSION}-base"
 
 USERNAME="vagrant"
@@ -19,7 +19,7 @@ echo -e "\e[38;5;39m================================#\e[0m"
 echo -e "\e[38;5;39m   Image Building with Packer   #\e[0m"
 echo -e "\e[38;5;39m================================#\e[0m"
 
-SOURCE_PATH="${BUILDS_DIR}/${OS}-${VERSION}-${ARCH}.vmware.box"
+SOURCE_PATH="${SOURCE_DIR}/${OS}-${VERSION}-${ARCH}.vmware.box"
 OUTPUT_DIR="boxes"
 TARGET_PATH="${OUTPUT_DIR}/${BOX_NAME}.vmware.box"
 
