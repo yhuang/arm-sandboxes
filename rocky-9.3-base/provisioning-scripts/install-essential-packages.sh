@@ -17,6 +17,7 @@ nano \
 nmap \
 nmap-ncat \
 nfs-utils \
+open-vm-tools \
 openssl-devel \
 python3-pip \
 readline-devel \

@@ -29,6 +29,7 @@ apt-get install -q -y \
   nmap \
   ncat \
   ntp \
+  open-vm-tools \
   pkg-config \
   python3-pip \
   ruby-dev \
