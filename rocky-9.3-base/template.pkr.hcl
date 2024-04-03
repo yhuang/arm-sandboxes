@@ -53,6 +53,7 @@ build {
     execute_command = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     scripts = [
       "provisioning-scripts/reset-motd.sh",
+      "provisioning-scripts/install-neofetch.sh",
       "provisioning-scripts/configure-sshd-options.sh",
       "provisioning-scripts/configure-vagrant-user.sh",
       "provisioning-scripts/install-vagrant-user-bash-profile.sh",
