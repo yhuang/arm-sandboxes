@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 APPLICATION="go"
-VERSION="1.22.0"
+VERSION="1.22.2"
 ARCHIVE="${APPLICATION}${VERSION}.linux-arm64.tar.gz"
 
 wget https://go.dev/dl/${ARCHIVE}
