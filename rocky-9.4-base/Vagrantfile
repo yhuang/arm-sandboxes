@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-box_name = 'rocky-9.3-base'
-hostname = 'rocky9-3-base'
+box_name = 'rocky-9.4-base'
+hostname = 'rocky9-4-base'
 
 Vagrant.configure(2) do |config|
   config.hostmanager.enabled = true

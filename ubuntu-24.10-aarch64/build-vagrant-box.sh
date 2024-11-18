@@ -2,17 +2,17 @@
 
 BENTO_DIR="${HOME}/workspace/bento"
 
-OS="rockylinux"
-MAJOR_NUMBER="9"
-MINOR_NUMBER="3"
+OS="ubuntu"
+MAJOR_NUMBER="24"
+MINOR_NUMBER="10"
 VERSION="${MAJOR_NUMBER}.${MINOR_NUMBER}"
 ARCH=aarch64
 
-PACKER_VARS="${BENTO_DIR}/os_pkrvars/${OS}/${OS}-${MAJOR_NUMBER}-${ARCH}.pkrvars.hcl"
-VM_NAME="rocky${MAJOR_NUMBER}-${MINOR_NUMBER}"
+PACKER_VARS="${BENTO_DIR}/os_pkrvars/${OS}/${OS}-${VERSION}-${ARCH}.pkrvars.hcl"
+VM_NAME="${OS}${MAJOR_NUMBER}-${MINOR_NUMBER}"
 BUILDS_DIR="${BENTO_DIR}/builds"
 BOX_ARTIFACT_NAME="${OS}-${VERSION}-${ARCH}.vmware.box"
-BOX_NAME="rocky-${VERSION}-${ARCH}"
+BOX_NAME="${OS}-${VERSION}-${ARCH}"
 
 echo -e "\e[38;5;39m================================#\e[0m"
 echo -e "\e[38;5;39m   Image Building with Packer   #\e[0m"
@@ -33,6 +33,7 @@ echo -e "\e[38;5;39m   Box Building with Vagrant   #\e[0m"
 echo -e "\e[38;5;39m===============================#\e[0m"
 vagrant box add --force ${BUILDS_DIR}/${BOX_ARTIFACT_NAME} --name ${BOX_NAME}
 
+mkdir -p boxes
 cp ${BUILDS_DIR}/${BOX_ARTIFACT_NAME} boxes/${BOX_ARTIFACT_NAME}
 
 echo -e "\e[38;5;39m===================#\e[0m"

@@ -9,8 +9,7 @@ gpg2 \
 
 curl -sSL https://get.rvm.io | bash -s stable
 
-# latest confirmed working version on Rocky Linux 9.3
-RUBY_VERSION="3.1.4"
+RUBY_VERSION="3.3.6"
 RVM_SCRIPT="${HOME}/.rvm/scripts/rvm"
 
 . ${RVM_SCRIPT}

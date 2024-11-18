@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# https://releases.hashicorp.com/vault/
+# https://releases.hashicorp.com/packer/
 
-APPLICATION="vault"
-VERSION="1.16.0"
+APPLICATION="packer"
+VERSION="1.11.2"
 ARCHIVE="${APPLICATION}_${VERSION}_linux_arm64.zip"
 
 wget https://releases.hashicorp.com/${APPLICATION}/${VERSION}/${ARCHIVE}

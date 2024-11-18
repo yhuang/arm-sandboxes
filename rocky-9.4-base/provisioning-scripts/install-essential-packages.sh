@@ -12,6 +12,7 @@ jq \
 libcurl-devel \
 libffi-devel \
 libxcrypt-compat \
+libyaml-devel \
 lsof \
 nano \
 nmap \

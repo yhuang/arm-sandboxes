@@ -9,7 +9,7 @@ packer {
   }
 }
 
-source "vagrant" "ubuntu_base" {
+source "vagrant" "rocky_base" {
   communicator = "ssh"
   source_path  = var.source_path
   provider     = "vmware_desktop"
@@ -24,18 +24,16 @@ source "vagrant" "ubuntu_base" {
 
 build {
   name    = var.build_name
-  sources = ["source.vagrant.ubuntu_base"]
+  sources = ["source.vagrant.rocky_base"]
 
   provisioner "shell" {
     expect_disconnect = true
     pause_before      = "10s"
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
     inline = [
-      "rm -rf /var/cache/apt",
-      "apt-get clean all",
-      "export DEBIAN_FRONTEND=noninteractive",
-      "apt-get update -q -y",
-      "apt-get upgrade -q -y",
+      "rm -rf /var/cache/dnf",
+      "dnf clean all",
+      "dnf -y update",
       "reboot"
     ]
   }
@@ -56,6 +54,7 @@ build {
     execute_command = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     scripts = [
       "provisioning-scripts/reset-motd.sh",
+      "provisioning-scripts/install-neofetch.sh",
       "provisioning-scripts/configure-sshd-options.sh",
       "provisioning-scripts/configure-vagrant-user.sh",
       "provisioning-scripts/install-vagrant-user-bash-profile.sh",
@@ -77,6 +76,7 @@ build {
       "provisioning-scripts/install-rvm.sh"
     ]
   }
+
   provisioner "shell" {
     execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     valid_exit_codes = [0, 1]

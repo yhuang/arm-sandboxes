@@ -2,15 +2,15 @@
 
 BENTO_DIR="${HOME}/workspace/bento"
 
-OS="rockylinux"
-MAJOR_NUMBER="9"
-MINOR_NUMBER="3"
+OS="ubuntu"
+MAJOR_NUMBER="24"
+MINOR_NUMBER="10"
 VERSION="${MAJOR_NUMBER}.${MINOR_NUMBER}"
 ARCH=aarch64
 
-HOSTNAME="rocky${MAJOR_NUMBER}-${MINOR_NUMBER}-base"
-SOURCE_DIR="../rocky-${VERSION}-${ARCH}/boxes"
-BOX_NAME="rocky-${VERSION}-base"
+HOSTNAME="${OS}${MAJOR_NUMBER}-${MINOR_NUMBER}-base"
+SOURCE_DIR="../${OS}-${VERSION}-${ARCH}/boxes"
+BOX_NAME="${OS}-${VERSION}-base"
 
 USERNAME="vagrant"
 PASSWORD="vagrant"

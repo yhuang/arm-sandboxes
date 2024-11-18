@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-box_name = 'rocky-9.3-aarch64'
-hostname = 'rocky9-3'
+box_name = 'ubuntu-22.04-base'
+hostname = 'ubuntu22-04-base'
 
 Vagrant.configure(2) do |config|
   config.hostmanager.enabled = true

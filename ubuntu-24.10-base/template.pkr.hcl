@@ -1,14 +1,15 @@
+# https://developer.hashicorp.com/packer/integrations/hashicorp/vmware
 packer {
-  required_version = ">= 1.10.1"
+  required_version = ">= 1.1.0"
   required_plugins {
     vmware = {
-      version = ">= 1.0.11"
+      version = ">= 1.1.0"
       source  = "github.com/hashicorp/vmware"
     }
   }
 }
 
-source "vagrant" "rocky_base" {
+source "vagrant" "ubuntu_base" {
   communicator = "ssh"
   source_path  = var.source_path
   provider     = "vmware_desktop"
@@ -23,16 +24,18 @@ source "vagrant" "rocky_base" {
 
 build {
   name    = var.build_name
-  sources = ["source.vagrant.rocky_base"]
+  sources = ["source.vagrant.ubuntu_base"]
 
   provisioner "shell" {
     expect_disconnect = true
     pause_before      = "10s"
     execute_command   = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'"
     inline = [
-      "rm -rf /var/cache/dnf",
-      "dnf clean all",
-      "dnf -y update",
+      "rm -rf /var/cache/apt",
+      "apt-get clean all",
+      "export DEBIAN_FRONTEND=noninteractive",
+      "apt-get update -q -y",
+      "apt-get upgrade -q -y",
       "reboot"
     ]
   }
@@ -53,7 +56,6 @@ build {
     execute_command = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     scripts = [
       "provisioning-scripts/reset-motd.sh",
-      "provisioning-scripts/install-neofetch.sh",
       "provisioning-scripts/configure-sshd-options.sh",
       "provisioning-scripts/configure-vagrant-user.sh",
       "provisioning-scripts/install-vagrant-user-bash-profile.sh",
@@ -75,7 +77,6 @@ build {
       "provisioning-scripts/install-rvm.sh"
     ]
   }
-
   provisioner "shell" {
     execute_command  = "echo ${var.ssh_password} | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'"
     valid_exit_codes = [0, 1]
