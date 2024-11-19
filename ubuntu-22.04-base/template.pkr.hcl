@@ -50,6 +50,7 @@ build {
   }
 
   provisioner "shell" {
+    expect_disconnect = true
     environment_vars = [
       "HOME_DIR=${var.user_home_dir}"
     ]
