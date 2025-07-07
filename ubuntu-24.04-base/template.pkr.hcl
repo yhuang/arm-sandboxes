@@ -69,13 +69,13 @@ build {
       "provisioning-scripts/install-python-packages.sh",
       "provisioning-scripts/install-aws-cli.sh",
       "provisioning-scripts/install-google-cloud-cli.sh",
-      "provisioning-scripts/install-claude-code.sh",
     ]
   }
 
   provisioner "shell" {
     scripts = [
-      "provisioning-scripts/install-rvm.sh"
+      "provisioning-scripts/install-claude-code.sh",
+      "provisioning-scripts/install-rvm.sh",
     ]
   }
   provisioner "shell" {

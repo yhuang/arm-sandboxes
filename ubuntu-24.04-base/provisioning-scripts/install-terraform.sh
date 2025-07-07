@@ -22,8 +22,24 @@ do
     $TFSWITCH $VERSION
 done
 
-chgrp vagrant $ROOT_TERRAFORM_VERSIONS/*
-cp $ROOT_TERRAFORM_VERSIONS/* $VAGRANT_TERRAFORM_VERSIONS/
+# Find where tfswitch actually stored the files
+if [ -n "$(ls /root/.terraform.versions/ 2>/dev/null)" ]; then
+    TERRAFORM_SOURCE_DIR=/root/.terraform.versions
+elif [ -n "$(ls /home/vagrant/.terraform.versions/ 2>/dev/null)" ]; then
+    TERRAFORM_SOURCE_DIR=/home/vagrant/.terraform.versions
+else
+    echo "Error: Cannot find downloaded Terraform versions"
+    exit 1
+fi
+
+# Only change ownership and copy if files exist and source is not the same as destination
+if [ -n "$(ls $TERRAFORM_SOURCE_DIR/* 2>/dev/null)" ]; then
+    chgrp vagrant $TERRAFORM_SOURCE_DIR/*
+    if [ "$TERRAFORM_SOURCE_DIR" != "$VAGRANT_TERRAFORM_VERSIONS" ]; then
+        cp $TERRAFORM_SOURCE_DIR/* $VAGRANT_TERRAFORM_VERSIONS/
+    fi
+fi
+
 chown -R vagrant:vagrant $VAGRANT_TERRAFORM_VERSIONS
 
 chgrp vagrant $USR_LOCAL_BIN/terraform

@@ -22,10 +22,20 @@ rvm use ${RUBY_VERSION} --default
 rvm gemset create user
 rvm use ${RUBY_VERSION}@user --default
 
-gem install --no-document \
-aws-sdk \
-bundler \
-rake \
-specific_install \
-inspec \
-test-kitchen
+# Install bundler in the gemset
+gem install --no-document bundler
+
+# Create Gemfile
+cat > /tmp/Gemfile << 'EOF'
+source 'https://rubygems.org'
+gem 'aws-sdk'
+gem 'rake'
+gem 'specific_install'
+gem 'inspec'
+gem 'test-kitchen'
+EOF
+
+# Install gems via bundler (will use current gemset)
+bundle install --gemfile=/tmp/Gemfile
+
+rm -f /tmp/Gemfile
