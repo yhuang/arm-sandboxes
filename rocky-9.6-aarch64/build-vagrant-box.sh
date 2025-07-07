@@ -2,22 +2,22 @@
 
 BENTO_DIR="${HOME}/workspace/bento"
 
-OS="ubuntu"
-MAJOR_NUMBER="22"
-MINOR_NUMBER="04"
+OS="rockylinux"
+MAJOR_NUMBER="9"
+MINOR_NUMBER="6"
 VERSION="${MAJOR_NUMBER}.${MINOR_NUMBER}"
 ARCH=aarch64
 
-PACKER_VARS="${BENTO_DIR}/os_pkrvars/${OS}/${OS}-${VERSION}-${ARCH}.pkrvars.hcl"
-VM_NAME="${OS}${MAJOR_NUMBER}-${MINOR_NUMBER}"
+PACKER_VARS="${BENTO_DIR}/os_pkrvars/${OS}/${OS}-${MAJOR_NUMBER}-${ARCH}.pkrvars.hcl"
+VM_NAME="rocky${MAJOR_NUMBER}-${MINOR_NUMBER}"
 BUILDS_DIR="${BENTO_DIR}/builds"
 BOX_ARTIFACT_NAME="${OS}-${VERSION}-${ARCH}.vmware.box"
-BOX_NAME="${OS}-${VERSION}-${ARCH}"
+BOX_NAME="rocky-${VERSION}-${ARCH}"
 
 echo -e "\e[38;5;39m================================#\e[0m"
 echo -e "\e[38;5;39m   Image Building with Packer   #\e[0m"
 echo -e "\e[38;5;39m================================#\e[0m"
-
+  
 packer build \
   -only=vmware-iso.vm \
   -var-file=${PACKER_VARS} \

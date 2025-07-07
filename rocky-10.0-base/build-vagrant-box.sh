@@ -2,15 +2,15 @@
 
 BENTO_DIR="${HOME}/workspace/bento"
 
-OS="ubuntu"
-MAJOR_NUMBER="22"
-MINOR_NUMBER="04"
+OS="rockylinux"
+MAJOR_NUMBER="10"
+MINOR_NUMBER="0"
 VERSION="${MAJOR_NUMBER}.${MINOR_NUMBER}"
 ARCH=aarch64
 
-HOSTNAME="${OS}${MAJOR_NUMBER}-${MINOR_NUMBER}-base"
-SOURCE_DIR="../${OS}-${VERSION}-${ARCH}/boxes"
-BOX_NAME="${OS}-${VERSION}-base"
+HOSTNAME="rocky${MAJOR_NUMBER}-${MINOR_NUMBER}-base"
+SOURCE_DIR="../rocky-${VERSION}-${ARCH}/boxes"
+BOX_NAME="rocky-${VERSION}-base"
 
 USERNAME="vagrant"
 PASSWORD="vagrant"
@@ -22,7 +22,7 @@ echo -e "\e[38;5;39m================================#\e[0m"
 SOURCE_PATH="${SOURCE_DIR}/${OS}-${VERSION}-${ARCH}.vmware.box"
 OUTPUT_DIR="boxes"
 TARGET_PATH="${OUTPUT_DIR}/${BOX_NAME}.vmware.box"
-
+ 
 packer build \
   -var "build_name=${HOSTNAME}" \
   -var "box_name=${BOX_NAME}" \
@@ -41,7 +41,7 @@ vagrant box remove ${SOURCE_PATH}
 
 mv ${OUTPUT_DIR}/package.box ${TARGET_PATH}
 rm -f ${OUTPUT_DIR}/Vagrantfile
-vagrant box add --force --name ${BOX_NAME} ${TARGET_PATH}
+vagrant box add --name ${BOX_NAME} --force ${TARGET_PATH}
 
 echo -e "\e[38;5;39m===================#\e[0m"
 echo -e "\e[38;5;39m       Done!       #\e[0m"
